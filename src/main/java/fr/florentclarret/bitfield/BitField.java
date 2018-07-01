@@ -49,7 +49,7 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
             this.set = EnumSet.copyOf(Objects.requireNonNull(set));
         }
 
-        this.bitField = set.stream()
+        this.bitField = this.set.stream()
                 .mapToLong(element -> (1 << element.getBitFieldPosition()))
                 .sum();
     }
