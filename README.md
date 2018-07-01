@@ -69,4 +69,4 @@ If you have any idea or if you're willing to contribute, don't hesitate to do it
 
 ## License
 
-This project is under the Apache License 2.0 license.
+This project is under the MIT license.
