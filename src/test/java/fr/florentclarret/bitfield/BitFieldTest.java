@@ -1,6 +1,7 @@
 package fr.florentclarret.bitfield;
 
 import fr.florentclarret.bitfield.enums.WeekDay;
+import org.junit.Assert;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
@@ -40,6 +41,13 @@ public class BitFieldTest {
                 "day[" + day.getKey() + "], expectedBitFieldValue[" + day.getValue() + "]",
                 () -> assertEquals(day.getValue().longValue(),
                         new BitField<>(day.getKey()).getBitFieldValue())));
+    }
+
+    @Test
+    public void testConstructorFromArray_WithSeveralValues() {
+        Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, WeekDay.WEDNESDAY).getBitFieldValue());
+        Assert.assertEquals(34, new BitField<>(WeekDay.SATURDAY, WeekDay.TUESDAY).getBitFieldValue());
+        Assert.assertEquals(127, new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY).getBitFieldValue());
     }
 
     @TestFactory
