@@ -11,7 +11,10 @@ import java.util.Set;
  * Represents a immutable bit field of <T> elements. The user is responsible to have a <T> class correctly implemented.
  * By correctly implemented, it means that each value of <T> must have a unique position in the bit field.
  * This class aims to ease conversion between EnumSet and bit field for database storage for instance. However, if not
- * needed, never prefer using a bit field over an EnumSet. See Item 36, Effective Java (Third Edition) by Joshua Bloch for further information.
+ *      needed, never prefer using a bit field over an EnumSet. See Item 36, Effective Java (Third Edition) by Joshua
+ *      Bloch for further information.
+ * Warning : the representation of the bit field is stored in a long primitive type. It means that you can not have
+ *      more than 64 different values in this implementation
  * @param <T> The enum which represents the value in the bit field.
  * @author Florent Clarret
  */
