@@ -67,9 +67,14 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
      * Generates an instance of BitField from the binary bit field value.
      * @param enumClass the Class represented in the bit field
      * @param bitField The binary representation of the bit field.
-     * @throws IllegalArgumentException if any value in the field are not present in the <T> enum position's.
+     * @throws IllegalArgumentException if any value in the field are not present in the <T> enum position's
+     *         or if the enumClass is null.
      */
     public BitField(final Class<T> enumClass, final long bitField) {
+        if (enumClass == null) {
+            throw new IllegalArgumentException("enumClass must not be null");
+        }
+
         long localBitField = bitField;
         this.set = EnumSet.noneOf(enumClass);
         this.bitField = localBitField;
