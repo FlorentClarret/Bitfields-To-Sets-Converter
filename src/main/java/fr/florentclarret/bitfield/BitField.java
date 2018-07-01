@@ -74,19 +74,21 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
         this.set = EnumSet.noneOf(enumClass);
         this.bitField = localBitField;
 
-        for(final T element : EnumSet.allOf(enumClass)) {
-            if(((1 << element.getBitFieldPosition()) & localBitField) > 0) {
-                this.set.add(element);
-                // Remove the current bit to ease final comparison
-                localBitField = localBitField ^ (1 << element.getBitFieldPosition());
+        if (localBitField != 0) {
+            for(final T element : EnumSet.allOf(enumClass)) {
+                if(((1 << element.getBitFieldPosition()) & localBitField) > 0) {
+                    this.set.add(element);
+                    // Remove the current bit to ease final comparison
+                    localBitField = localBitField ^ (1 << element.getBitFieldPosition());
+                }
             }
-        }
 
-        // If the local bit field is not 0, it means that we have missing position values in the <T> enum
-        if(localBitField != 0) {
-            throw new IllegalArgumentException(
-                    "Invalid value found in bit field [" + bitField + "] for enum [" + enumClass.getName()
-            );
+            // If the local bit field is not 0, it means that we have missing position values in the <T> enum
+            if(localBitField != 0) {
+                throw new IllegalArgumentException(
+                        "Invalid value found in bit field [" + bitField + "] for enum [" + enumClass.getName()
+                );
+            }
         }
     }
 
