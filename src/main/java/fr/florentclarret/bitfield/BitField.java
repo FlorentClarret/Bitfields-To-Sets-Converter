@@ -63,11 +63,11 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
     /**
      * Generates an instance of BitField from the binary bit field value.
      * @param enumClass the Class represented in the bit field
-     * @param bitfield The binary representation of the bit field.
+     * @param bitField The binary representation of the bit field.
      * @throws IllegalArgumentException if any value in the field are not present in the <T> enum position's.
      */
-    public BitField(final Class<T> enumClass, final long bitfield) {
-        long localBitField = bitfield;
+    public BitField(final Class<T> enumClass, final long bitField) {
+        long localBitField = bitField;
         this.set = EnumSet.noneOf(enumClass);
         this.bitField = localBitField;
 
@@ -82,7 +82,7 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
         // If the local bit field is not 0, it means that we have missing position values in the <T> enum
         if(localBitField != 0) {
             throw new IllegalArgumentException(
-                    "Invalid value found in bit field [" + bitfield + "] for enum [" + enumClass.getName()
+                    "Invalid value found in bit field [" + bitField + "] for enum [" + enumClass.getName()
             );
         }
     }
