@@ -131,4 +131,38 @@ public class BitFieldTest {
                 "days[" + element + "]",
                 () -> assertNotSame(element, new BitField<>(element).getSet())));
     }
+
+    @TestFactory
+    public Stream<DynamicTest> testConstructorFromBitField() {
+        final Map<Set<WeekDay>, Long> map = new HashMap<>();
+        map.put(EnumSet.noneOf(WeekDay.class), 0L);
+        map.put(EnumSet.of(WeekDay.MONDAY), 1L);
+        map.put(EnumSet.of(WeekDay.TUESDAY), 2L);
+        map.put(EnumSet.of(WeekDay.WEDNESDAY), 4L);
+        map.put(EnumSet.of(WeekDay.THURSDAY), 8L);
+        map.put(EnumSet.of(WeekDay.FRIDAY), 16L);
+        map.put(EnumSet.of(WeekDay.SATURDAY), 32L);
+        map.put(EnumSet.of(WeekDay.SUNDAY), 64L);
+        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.FRIDAY), 17L);
+        map.put(EnumSet.of(WeekDay.SATURDAY, WeekDay.THURSDAY), 40L);
+        map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY), 68L);
+        map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY), 76L);
+        map.put(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY), 42L);
+        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY), 127L);
+
+        return map.entrySet().stream().map(element -> DynamicTest.dynamicTest(
+                "bitFieldValue[" + element.getValue() + "], expectedSet[" + element.getKey() + "]",
+                () -> {
+                    final BitField<WeekDay> result = new BitField<>(WeekDay.class, element.getValue());
+                    assertEquals(element.getKey(), result.getSet());
+                    assertEquals(element.getValue().longValue(), result.getBitFieldValue());
+                }));
+    }
+
+    @Test
+    public void testConstructorFromBitField_WithNullClass() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new BitField<WeekDay>(null, 0));
+    }
+
 }
