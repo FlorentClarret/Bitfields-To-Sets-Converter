@@ -81,7 +81,7 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
 
         if (localBitField != 0) {
             for(final T element : EnumSet.allOf(enumClass)) {
-                if(((1 << element.getBitFieldPosition()) & localBitField) > 0) {
+                if(((1 << element.getBitFieldPosition()) & localBitField) != 0) {
                     this.set.add(element);
                     // Remove the current bit to ease final comparison
                     localBitField = localBitField ^ (1 << element.getBitFieldPosition());
