@@ -6,13 +6,16 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -81,5 +84,51 @@ public class BitFieldTest {
                     final Set<WeekDay> set = null;
                     new BitField<>(set);
                 });
+    }
+
+    @TestFactory
+    public Stream<DynamicTest> testGetSet() {
+        final List<Set<WeekDay>> list = new ArrayList<>();
+        list.add(EnumSet.noneOf(WeekDay.class));
+        list.add(EnumSet.of(WeekDay.MONDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY));
+        list.add(EnumSet.of(WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY));
+
+        return list.stream().map(element -> DynamicTest.dynamicTest(
+                "days[" + element + "]",
+                () -> assertEquals(element, new BitField<>(element).getSet())));
+    }
+
+    @TestFactory
+    public Stream<DynamicTest> testGetSet_ReturnCopy() {
+        final List<Set<WeekDay>> list = new ArrayList<>();
+        list.add(EnumSet.noneOf(WeekDay.class));
+        list.add(EnumSet.of(WeekDay.MONDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY));
+        list.add(EnumSet.of(WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY));
+
+        return list.stream().map(element -> DynamicTest.dynamicTest(
+                "days[" + element + "]",
+                () -> assertNotSame(element, new BitField<>(element).getSet())));
     }
 }
