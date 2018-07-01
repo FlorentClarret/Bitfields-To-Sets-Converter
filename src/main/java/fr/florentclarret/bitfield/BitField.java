@@ -55,7 +55,7 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
         if(set.isEmpty()) {
             this.set = Collections.emptySet();
         } else {
-            this.set = EnumSet.copyOf(Objects.requireNonNull(set));
+            this.set = EnumSet.copyOf(set);
         }
 
         this.bitField = this.set.stream()
