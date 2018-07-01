@@ -17,8 +17,14 @@ import java.util.Set;
  */
 public class BitField<T extends Enum<T> & BitFieldElement> {
 
+    /**
+     * Binary representation of the bit field.
+     */
     private final long bitField;
 
+    /**
+     * Set representation of the bit field.
+     */
     private final Set<T> set;
 
     /**
