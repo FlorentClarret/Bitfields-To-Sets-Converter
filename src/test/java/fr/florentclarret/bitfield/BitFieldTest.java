@@ -40,17 +40,17 @@ public class BitFieldTest {
         weekDays.put(WeekDay.SATURDAY, 32L);
         weekDays.put(WeekDay.SUNDAY, 64L);
 
-        return weekDays.entrySet().stream().map(day -> DynamicTest.dynamicTest(
-                "day[" + day.getKey() + "], expectedBitFieldValue[" + day.getValue() + "]",
-                () -> assertEquals(day.getValue().longValue(),
-                        new BitField<>(day.getKey()).getBitFieldValue())));
+        return weekDays.entrySet().stream().map(day -> DynamicTest.dynamicTest("day[" + day.getKey() + "], " +
+                "expectedBitFieldValue[" + day.getValue() + "]", () -> assertEquals(day.getValue().longValue(), new
+                BitField<>(day.getKey()).getBitFieldValue())));
     }
 
     @Test
     public void testConstructorFromArray_WithSeveralValues() {
         Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, WeekDay.WEDNESDAY).getBitFieldValue());
         Assert.assertEquals(34, new BitField<>(WeekDay.SATURDAY, WeekDay.TUESDAY).getBitFieldValue());
-        Assert.assertEquals(127, new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY).getBitFieldValue());
+        Assert.assertEquals(127, new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY,
+                WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY).getBitFieldValue());
     }
 
     @TestFactory
@@ -69,21 +69,20 @@ public class BitFieldTest {
         map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY), 68L);
         map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY), 76L);
         map.put(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY), 42L);
-        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY), 127L);
+        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY), 127L);
 
-        return map.entrySet().stream().map(element -> DynamicTest.dynamicTest(
-                "days[" + element.getKey() + "], expectedBitFieldValue[" + element.getValue() + "]",
-                () -> assertEquals(element.getValue().longValue(),
-                        new BitField<>(element.getKey()).getBitFieldValue())));
+        return map.entrySet().stream().map(element -> DynamicTest.dynamicTest("days[" + element.getKey() + "], " +
+                "expectedBitFieldValue[" + element.getValue() + "]", () -> assertEquals(element.getValue().longValue
+                (), new BitField<>(element.getKey()).getBitFieldValue())));
     }
 
     @Test
     public void testConstructorFromSet_WithNullInput() {
-        assertThrows(IllegalArgumentException.class,
-                () -> {
-                    final Set<WeekDay> set = null;
-                    new BitField<>(set);
-                });
+        assertThrows(IllegalArgumentException.class, () -> {
+            final Set<WeekDay> set = null;
+            new BitField<>(set);
+        });
     }
 
     @TestFactory
@@ -102,21 +101,20 @@ public class BitFieldTest {
         map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY), 68L);
         map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY), 76L);
         map.put(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY), 42L);
-        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY), 127L);
+        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY), 127L);
 
-        return map.entrySet().stream().map(element -> DynamicTest.dynamicTest(
-                "bitFieldValue[" + element.getValue() + "], expectedSet[" + element.getKey() + "]",
-                () -> {
-                    final BitField<WeekDay> result = new BitField<>(WeekDay.class, element.getValue());
-                    assertEquals(element.getKey(), result.getSet());
-                    assertEquals(element.getValue().longValue(), result.getBitFieldValue());
-                }));
+        return map.entrySet().stream().map(element -> DynamicTest.dynamicTest("bitFieldValue[" + element.getValue() +
+                "], expectedSet[" + element.getKey() + "]", () -> {
+            final BitField<WeekDay> result = new BitField<>(WeekDay.class, element.getValue());
+            assertEquals(element.getKey(), result.getSet());
+            assertEquals(element.getValue().longValue(), result.getBitFieldValue());
+        }));
     }
 
     @Test
     public void testConstructorFromBitField_WithNullClass() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new BitField<WeekDay>(null, 0));
+        assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>(null, 0));
     }
 
     @TestFactory
@@ -135,11 +133,11 @@ public class BitFieldTest {
         list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY));
         list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY));
         list.add(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY));
-        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY));
 
-        return list.stream().map(element -> DynamicTest.dynamicTest(
-                "days[" + element + "]",
-                () -> assertEquals(element, new BitField<>(element).getSet())));
+        return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertEquals
+                (element, new BitField<>(element).getSet())));
     }
 
     @TestFactory
@@ -158,11 +156,11 @@ public class BitFieldTest {
         list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY));
         list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY));
         list.add(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY));
-        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY));
 
-        return list.stream().map(element -> DynamicTest.dynamicTest(
-                "days[" + element + "]",
-                () -> assertNotSame(element, new BitField<>(element).getSet())));
+        return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertNotSame
+                (element, new BitField<>(element).getSet())));
     }
 
     @Test
@@ -191,14 +189,13 @@ public class BitFieldTest {
 
     @Test
     public void testAddValue_WithNullInput() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new BitField<WeekDay>().addValue(null));
+        assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>().addValue(null));
     }
 
     @Test
     public void testAddValue_WithNullValueInExtraParameter() {
-        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.THURSDAY), new BitField<>(WeekDay.MONDAY).addValue(WeekDay
-                .MONDAY, WeekDay.THURSDAY, null, WeekDay.TUESDAY));
+        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.THURSDAY), new BitField<>(WeekDay
+                .MONDAY).addValue(WeekDay.MONDAY, WeekDay.THURSDAY, null, WeekDay.TUESDAY));
     }
 
 }

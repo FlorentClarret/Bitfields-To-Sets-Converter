@@ -14,8 +14,9 @@ public enum WeekDay implements BitFieldElement {
     private final int bitFieldPosition;
 
     WeekDay(final int position) {
-        if(position < 0) {
-            throw new IllegalArgumentException("The bitFieldPosition must be positive or null, current value = [" + position + "]");
+        if (position < 0) {
+            throw new IllegalArgumentException("The bitFieldPosition must be positive or null, current value = [" +
+                    position + "]");
         }
         this.bitFieldPosition = position;
     }
