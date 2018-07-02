@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+    working_directory: ~/jbitfield
+
+    environment:
+      MAVEN_OPTS: -Xmx2000m
+    
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - jbitfield-dependencies-{{ checksum "pom.xml" }}
+          - jbitfield-dependencies-
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: jbitfield-dependencies-{{ checksum "pom.xml" }}
+
+      - run: mvn clean
+
+      - run: mvn install
+
