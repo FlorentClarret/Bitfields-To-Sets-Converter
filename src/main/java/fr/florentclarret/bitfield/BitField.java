@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents a immutable bit field of <T> elements. The user is responsible to have a <T> class correctly implemented.
@@ -108,11 +110,29 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
     /**
      * Create a new instance of the current bit field with the given extra value.
      * If the element is already in the bit field, nothing will be done.
+     * Null values from the elements parameter are ignored.
      * @return The newly generated bit field with the extra value.
+     * @throws IllegalArgumentException if element is null
      */
-    public BitField<T> addValue(final T element) {
-        final Set<T> copy = EnumSet.copyOf(set);
+    public BitField<T> addValue(final T element, final T... elements) {
+        if (element == null) {
+            throw new IllegalArgumentException("element can not be null");
+        }
+
+        final Set<T> copy = set.isEmpty()
+                ? new HashSet<>()
+                : EnumSet.copyOf(set);
+
         copy.add(element);
+
+        if(elements != null && elements.length > 1) {
+            copy.addAll(
+                    Arrays.stream(elements)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toSet())
+            );
+        }
+
         return new BitField<>(copy);
     }
 

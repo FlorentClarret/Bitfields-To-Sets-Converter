@@ -165,4 +165,34 @@ public class BitFieldTest {
                 () -> new BitField<WeekDay>(null, 0));
     }
 
+    @Test
+    public void testAddValue() {
+        assertEquals(new BitField<>(WeekDay.MONDAY), new BitField<WeekDay>().addValue(WeekDay.MONDAY));
+        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY), new BitField<>(WeekDay.MONDAY).addValue(WeekDay
+                .TUESDAY));
+        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.FRIDAY), new BitField<>(WeekDay.MONDAY,
+                WeekDay.TUESDAY).addValue(WeekDay.FRIDAY));
+    }
+
+    @Test
+    public void testAddValue_ExistingValue() {
+        assertEquals(new BitField<>(WeekDay.MONDAY), new BitField<>(WeekDay.MONDAY).addValue(WeekDay.MONDAY));
+        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY), new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY)
+                .addValue(WeekDay.TUESDAY));
+    }
+
+    @Test
+    public void testAddValue_ReturnCopy() {
+        final BitField<WeekDay> bitField = new BitField<>(WeekDay.THURSDAY);
+
+        Assert.assertNotSame(bitField, bitField.addValue(WeekDay.MONDAY));
+        Assert.assertNotSame(bitField, bitField.addValue(WeekDay.MONDAY, WeekDay.THURSDAY));
+    }
+
+    @Test
+    public void testAddValue_WithNullInput() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new BitField<WeekDay>().addValue(null));
+    }
+
 }
