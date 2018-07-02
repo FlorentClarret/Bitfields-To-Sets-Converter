@@ -1,4 +1,4 @@
-*Disclaimer : I wrote this very small "library" for fun.*
+*Disclaimer : I wrote this very small "library" for fun. It is not finished nor completely tested.*
 
 # BitField and (Enum)Set conversions
 
