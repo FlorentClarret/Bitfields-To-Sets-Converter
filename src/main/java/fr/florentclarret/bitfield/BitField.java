@@ -102,6 +102,7 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
      * Duplicated values are used only once and automatically removed.
      * @param set The set to define in the bit field.
      * @return The newly generated bit field.
+     * @throws IllegalArgumentException if the set is null
      */
     public BitField<T> setValue(final Set<T> set) {
         return new BitField<>(set);
