@@ -1,4 +1,4 @@
-package fr.florentclarret.bitfield;
+package fr.jbitfield;
 
 import java.util.Arrays;
 import java.util.Collections;

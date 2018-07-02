@@ -1,6 +1,6 @@
-package fr.florentclarret.bitfield;
+package fr.jbitfield;
 
-import fr.florentclarret.bitfield.enums.WeekDay;
+import fr.jbitfield.enums.WeekDay;
 import org.junit.Assert;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
