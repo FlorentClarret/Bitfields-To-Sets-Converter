@@ -198,4 +198,55 @@ public class BitFieldTest {
                 .MONDAY).addValue(WeekDay.MONDAY, WeekDay.THURSDAY, null, WeekDay.TUESDAY));
     }
 
+    @TestFactory
+    public Stream<DynamicTest> testSetValue() {
+        final List<Set<WeekDay>> list = new ArrayList<>();
+        list.add(EnumSet.noneOf(WeekDay.class));
+        list.add(EnumSet.of(WeekDay.MONDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY));
+        list.add(EnumSet.of(WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY));
+
+        return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertEquals
+                (element, new BitField<>(WeekDay.SUNDAY).setValue(element).getSet())));
+    }
+
+    @TestFactory
+    public Stream<DynamicTest> testSetValue_ReturnCopy() {
+        final List<Set<WeekDay>> list = new ArrayList<>();
+        list.add(EnumSet.noneOf(WeekDay.class));
+        list.add(EnumSet.of(WeekDay.MONDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY));
+        list.add(EnumSet.of(WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.FRIDAY));
+        list.add(EnumSet.of(WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY));
+        list.add(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY));
+        list.add(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY));
+
+        return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertNotSame
+                (element, new BitField<>(WeekDay.SUNDAY).setValue(element))));
+    }
+
+    @Test
+    public void testSetValue_WithNullInput() {
+        assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>().setValue(null));
+    }
+
 }
