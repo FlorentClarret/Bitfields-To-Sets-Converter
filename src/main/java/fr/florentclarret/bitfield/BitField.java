@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -52,11 +51,10 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
            throw new IllegalArgumentException("set can not be null");
         }
 
-        if(set.isEmpty()) {
-            this.set = Collections.emptySet();
-        } else {
-            this.set = EnumSet.copyOf(set);
-        }
+        // Not using guava immutable set (instead of unmodifiable set) to avoid relying on external libraries
+        this.set = (set.isEmpty())
+                ? Collections.emptySet()
+                : Collections.unmodifiableSet(EnumSet.copyOf(set));
 
         this.bitField = this.set.stream()
                 .mapToLong(element -> (1 << element.getBitFieldPosition()))
@@ -131,7 +129,7 @@ public class BitField<T extends Enum<T> & BitFieldElement> {
      * @return A unmodifiable set of the value stored in the current bit field.
      */
     public Set<T> getSet() {
-        return Collections.unmodifiableSet(set);
+        return set;
     }
 
     @Override
