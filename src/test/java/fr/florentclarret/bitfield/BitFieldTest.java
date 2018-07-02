@@ -195,4 +195,10 @@ public class BitFieldTest {
                 () -> new BitField<WeekDay>().addValue(null));
     }
 
+    @Test
+    public void testAddValue_WithNullValueInExtraParameter() {
+        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.THURSDAY), new BitField<>(WeekDay.MONDAY).addValue(WeekDay
+                .MONDAY, WeekDay.THURSDAY, null, WeekDay.TUESDAY));
+    }
+
 }
