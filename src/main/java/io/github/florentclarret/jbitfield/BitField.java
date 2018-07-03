@@ -38,7 +38,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
     public BitField(final T... otherElements) {
         this(new HashSet<T>() {{
             if (otherElements != null && otherElements.length > 0) {
-                this.addAll(Arrays.asList(otherElements));
+                this.addAll(Arrays.stream(otherElements).filter(Objects::nonNull).collect(Collectors.toSet()));
             }
         }});
     }

@@ -54,6 +54,13 @@ public class BitFieldTest {
                 WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY).getBitFieldValue());
     }
 
+    @Test
+    public void testConstructorFromArray_WithNullValues() {
+        Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, null, WeekDay.WEDNESDAY).getBitFieldValue());
+        Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, null, WeekDay.WEDNESDAY, null).getBitFieldValue());
+        Assert.assertEquals(32, new BitField<>(WeekDay.SATURDAY, null, null, null).getBitFieldValue());
+    }
+
     @TestFactory
     public Stream<DynamicTest> testConstructorFromSet() {
         final Map<Set<WeekDay>, Long> map = new HashMap<>();
