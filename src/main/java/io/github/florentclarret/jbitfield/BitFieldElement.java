@@ -1,4 +1,4 @@
-package fr.jbitfield;
+package io.github.florentclarret.jbitfield;
 
 /**
  * Represents the super class for any enum that would be represented as a bit field. It's user's responsibility to

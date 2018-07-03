@@ -1,4 +1,4 @@
-package fr.jbitfield;
+package io.github.florentclarret.jbitfield;
 
 import java.util.Arrays;
 import java.util.Collections;

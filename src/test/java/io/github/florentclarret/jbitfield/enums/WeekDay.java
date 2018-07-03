@@ -1,6 +1,6 @@
-package fr.jbitfield.enums;
+package io.github.florentclarret.jbitfield.enums;
 
-import fr.jbitfield.BitFieldElement;
+import io.github.florentclarret.jbitfield.BitFieldElement;
 
 public enum WeekDay implements BitFieldElement {
     MONDAY(0),
