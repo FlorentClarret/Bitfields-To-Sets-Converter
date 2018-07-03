@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @param <T> The enum which represents the value in the bit field.
  * @author Florent Clarret
  */
-public class BitField<T extends Enum<T> & BitFieldElement> {
+public final class BitField<T extends Enum<T> & BitFieldElement> {
 
     /**
      * Binary representation of the bit field.
