@@ -6,6 +6,26 @@ import org.junit.jupiter.api.Test;
 
 public class BitFieldHelperTest {
 
+    @Test
+    public void testIsValid() {
+        Assert.assertTrue(BitFieldHelper.isValidEnum(WeekDay.class));
+    }
+
+    @Test
+    public void testIsValid_WithMissingValues() {
+        Assert.assertTrue(BitFieldHelper.isValidEnum(ValidEnum.class));
+    }
+
+    @Test
+    public void testIsValid_WithDuplicatedValues() {
+        Assert.assertFalse(BitFieldHelper.isValidEnum(DuplicatedEnum.class));
+    }
+
+    @Test
+    public void testIsValid_WithNegativeValues() {
+        Assert.assertFalse(BitFieldHelper.isValidEnum(NegativeEnum.class));
+    }
+
     public enum ValidEnum implements BitFieldElement {
         FIRST_VALUE(0),
         SECOND_VALUE(2),
@@ -23,14 +43,14 @@ public class BitFieldHelperTest {
         }
     }
 
-    public enum InvalidEnum implements BitFieldElement {
+    public enum DuplicatedEnum implements BitFieldElement {
         FIRST_VALUE(0),
         SECOND_VALUE(0),
         THIRD_VALUE(1);
 
         private final int position;
 
-        InvalidEnum(final int position) {
+        DuplicatedEnum(final int position) {
             this.position = position;
         }
 
@@ -40,18 +60,20 @@ public class BitFieldHelperTest {
         }
     }
 
-    @Test
-    public void testIsValid() {
-        Assert.assertTrue(BitFieldHelper.isValidEnum(WeekDay.class));
-    }
+    public enum NegativeEnum implements BitFieldElement {
+        FIRST_VALUE(0),
+        SECOND_VALUE(1),
+        THIRD_VALUE(-2);
 
-    @Test
-    public void testIsValid_WithMissingValues() {
-        Assert.assertTrue(BitFieldHelper.isValidEnum(ValidEnum.class));
-    }
+        private final int position;
 
-    @Test
-    public void testIsValid_WithDuplicatedValues() {
-        Assert.assertFalse(BitFieldHelper.isValidEnum(InvalidEnum.class));
+        NegativeEnum(final int position) {
+            this.position = position;
+        }
+
+        @Override
+        public int getBitFieldPosition() {
+            return position;
+        }
     }
 }

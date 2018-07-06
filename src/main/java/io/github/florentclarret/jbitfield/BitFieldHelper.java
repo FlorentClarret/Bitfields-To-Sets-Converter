@@ -28,7 +28,8 @@ public final class BitFieldHelper {
         final Set<Integer> set = new HashSet<>(enumSet.size());
 
         for(final T element : enumSet) {
-            if(!set.add(element.getBitFieldPosition())) {
+            final int position = element.getBitFieldPosition();
+            if(!set.add(position) || position < 0) {
                 return false;
             }
         }
