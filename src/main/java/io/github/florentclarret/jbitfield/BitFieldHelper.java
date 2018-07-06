@@ -21,9 +21,6 @@ public final class BitFieldHelper {
      * @return true if the enum is valid from the BitFieldp oint of view, false otherwise.
      */
     public static <T extends Enum<T> & BitFieldElement> boolean isValidEnum(final Class<T> enumClass) {
-        /* For some reason, this does not work at runtime. I couldn't figure this out.
-           return EnumSet.allOf(enumClass).<T>stream().map(T::getBitFieldPosition).allMatch(new HashSet<>()::add);
-         */
         final Set<T> enumSet = EnumSet.allOf(enumClass);
         final Set<Integer> set = new HashSet<>(enumSet.size());
 
