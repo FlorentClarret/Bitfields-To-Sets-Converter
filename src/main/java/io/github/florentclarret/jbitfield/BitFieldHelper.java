@@ -16,6 +16,7 @@ public final class BitFieldHelper {
     /**
      * Check that the given BitFieldElement class is valid. By valid, we means that all positions are unique.
      * If some positions are missing (for example the the positions are 0, 2 and 3), the enum is considered valid.
+     * Negative values are also not considered valid.
      * @param enumClass The enumClass which extends BitFieldElement to check.
      * @param <T> The BitFieldElement class.
      * @return true if the enum is valid from the BitFieldp oint of view, false otherwise.
