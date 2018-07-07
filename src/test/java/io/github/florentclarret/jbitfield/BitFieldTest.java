@@ -180,21 +180,21 @@ public class BitFieldTest {
     @Test
     public void testAddValue() {
         assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
-                .class).addValue(Collections.singleton(WeekDay.MONDAY)));
+                .class).add(Collections.singleton(WeekDay.MONDAY)));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
-                BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)).addValue(Collections.singleton
+                BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)).add(Collections.singleton
                 (WeekDay.TUESDAY)));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay
                 .FRIDAY))), new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))
-        ).addValue(Collections.singleton(WeekDay.FRIDAY)));
+        ).add(Collections.singleton(WeekDay.FRIDAY)));
     }
 
     @Test
     public void testAddValue_ExistingValue() {
         assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
-                .class, Collections.singleton(WeekDay.MONDAY)).addValue(Collections.singleton(WeekDay.MONDAY)));
+                .class, Collections.singleton(WeekDay.MONDAY)).add(Collections.singleton(WeekDay.MONDAY)));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
-                BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).addValue
+                BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).add
                 (Collections.singleton(WeekDay.TUESDAY)));
     }
 
@@ -202,13 +202,14 @@ public class BitFieldTest {
     public void testAddValue_ReturnCopy() {
         final BitField<WeekDay> bitField = new BitField<>(WeekDay.class, Collections.singleton(WeekDay.THURSDAY));
 
-        Assert.assertNotSame(bitField, bitField.addValue(Collections.singleton(WeekDay.MONDAY)));
-        Assert.assertNotSame(bitField, bitField.addValue(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.THURSDAY))));
+        Assert.assertNotSame(bitField, bitField.add(Collections.singleton(WeekDay.MONDAY)));
+        Assert.assertNotSame(bitField, bitField.add(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.THURSDAY))));
     }
 
     @Test
     public void testAddValue_WithNullInput() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).addValue(null));
+        final Set<WeekDay> set = null;
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).add(set));
     }
 
     @TestFactory
@@ -231,7 +232,7 @@ public class BitFieldTest {
                 WeekDay.SATURDAY, WeekDay.SUNDAY));
 
         return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertEquals
-                (element, new BitField<>(WeekDay.class, Collections.singleton(WeekDay.SUNDAY)).setValue(element).getSet())));
+                (element, new BitField<>(WeekDay.class, Collections.singleton(WeekDay.SUNDAY)).set(element).getSet())));
     }
 
     @TestFactory
@@ -254,12 +255,12 @@ public class BitFieldTest {
                 WeekDay.SATURDAY, WeekDay.SUNDAY));
 
         return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertNotSame
-                (element, new BitField<>(WeekDay.class, Collections.singleton(WeekDay.SUNDAY)).setValue(element))));
+                (element, new BitField<>(WeekDay.class, Collections.singleton(WeekDay.SUNDAY)).set(element))));
     }
 
     @Test
     public void testSetValue_WithNullInput() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).setValue(null));
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).set(null));
     }
 
 }

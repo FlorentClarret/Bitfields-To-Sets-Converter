@@ -114,7 +114,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * @return The newly generated bit field.
      * @throws IllegalArgumentException if the set is null
      */
-    public BitField<T> setValue(final Set<T> set) {
+    public BitField<T> set(final Set<T> set) {
         return new BitField<>(enumClass, set);
     }
 
@@ -125,7 +125,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * @return The newly generated bit field with the extra value.
      * @throws IllegalArgumentException if element is null
      */
-    public BitField<T> addValue(final Set<T> elements) {
+    public BitField<T> add(final Set<T> elements) {
         if (elements == null) {
             throw new IllegalArgumentException("elements can not be null");
         }
