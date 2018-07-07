@@ -8,8 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,42 +26,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class BitFieldTest {
 
     @Test
-    public void testConstructorFromArray_WithNoValues() {
+    public void testDefaultConstructor() {
         final BitField<WeekDay> weekDaysBitField = new BitField<>();
 
         assertEquals(0, weekDaysBitField.getBitFieldValue());
         assertTrue(weekDaysBitField.getSet().isEmpty());
-    }
-
-    @TestFactory
-    public Stream<DynamicTest> testConstructorFromArray_WithOneValue() {
-        final Map<WeekDay, Long> weekDays = new HashMap<>();
-        weekDays.put(WeekDay.MONDAY, 1L);
-        weekDays.put(WeekDay.TUESDAY, 2L);
-        weekDays.put(WeekDay.WEDNESDAY, 4L);
-        weekDays.put(WeekDay.THURSDAY, 8L);
-        weekDays.put(WeekDay.FRIDAY, 16L);
-        weekDays.put(WeekDay.SATURDAY, 32L);
-        weekDays.put(WeekDay.SUNDAY, 64L);
-
-        return weekDays.entrySet().stream().map(day -> DynamicTest.dynamicTest("day[" + day.getKey() + "], " +
-                "expectedBitFieldValue[" + day.getValue() + "]", () -> assertEquals(day.getValue().longValue(), new
-                BitField<>(day.getKey()).getBitFieldValue())));
-    }
-
-    @Test
-    public void testConstructorFromArray_WithSeveralValues() {
-        Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, WeekDay.WEDNESDAY).getBitFieldValue());
-        Assert.assertEquals(34, new BitField<>(WeekDay.SATURDAY, WeekDay.TUESDAY).getBitFieldValue());
-        Assert.assertEquals(127, new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY,
-                WeekDay.FRIDAY, WeekDay.SATURDAY, WeekDay.SUNDAY).getBitFieldValue());
-    }
-
-    @Test
-    public void testConstructorFromArray_WithNullValues() {
-        Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, null, WeekDay.WEDNESDAY).getBitFieldValue());
-        Assert.assertEquals(36, new BitField<>(WeekDay.SATURDAY, null, WeekDay.WEDNESDAY, null).getBitFieldValue());
-        Assert.assertEquals(32, new BitField<>(WeekDay.SATURDAY, null, null, null).getBitFieldValue());
     }
 
     @TestFactory
@@ -173,37 +145,35 @@ public class BitFieldTest {
 
     @Test
     public void testAddValue() {
-        assertEquals(new BitField<>(WeekDay.MONDAY), new BitField<WeekDay>().addValue(WeekDay.MONDAY));
-        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY), new BitField<>(WeekDay.MONDAY).addValue(WeekDay
-                .TUESDAY));
-        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.FRIDAY), new BitField<>(WeekDay.MONDAY,
-                WeekDay.TUESDAY).addValue(WeekDay.FRIDAY));
+        assertEquals(new BitField<>(Collections.singleton(WeekDay.MONDAY)), new BitField<WeekDay>().addValue
+                (Collections.singleton(WeekDay.MONDAY)));
+        assertEquals(new BitField<>(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new BitField<>
+                (Collections.singleton(WeekDay.MONDAY)).addValue(Collections.singleton(WeekDay.TUESDAY)));
+        assertEquals(new BitField<>(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.FRIDAY))), new
+                BitField<>(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).addValue(Collections
+                .singleton(WeekDay.FRIDAY)));
     }
 
     @Test
     public void testAddValue_ExistingValue() {
-        assertEquals(new BitField<>(WeekDay.MONDAY), new BitField<>(WeekDay.MONDAY).addValue(WeekDay.MONDAY));
-        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY), new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY)
-                .addValue(WeekDay.TUESDAY));
+        assertEquals(new BitField<>(Collections.singleton(WeekDay.MONDAY)), new BitField<>(Collections.singleton
+                (WeekDay.MONDAY)).addValue(Collections.singleton(WeekDay.MONDAY)));
+        assertEquals(new BitField<>(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new BitField<>(new
+                HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).addValue(Collections.singleton(WeekDay
+                .TUESDAY)));
     }
 
     @Test
     public void testAddValue_ReturnCopy() {
-        final BitField<WeekDay> bitField = new BitField<>(WeekDay.THURSDAY);
+        final BitField<WeekDay> bitField = new BitField<>(Collections.singleton(WeekDay.THURSDAY));
 
-        Assert.assertNotSame(bitField, bitField.addValue(WeekDay.MONDAY));
-        Assert.assertNotSame(bitField, bitField.addValue(WeekDay.MONDAY, WeekDay.THURSDAY));
+        Assert.assertNotSame(bitField, bitField.addValue(Collections.singleton(WeekDay.MONDAY)));
+        Assert.assertNotSame(bitField, bitField.addValue(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.THURSDAY))));
     }
 
     @Test
     public void testAddValue_WithNullInput() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>().addValue(null));
-    }
-
-    @Test
-    public void testAddValue_WithNullValueInExtraParameter() {
-        assertEquals(new BitField<>(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.THURSDAY), new BitField<>(WeekDay
-                .MONDAY).addValue(WeekDay.MONDAY, WeekDay.THURSDAY, null, WeekDay.TUESDAY));
     }
 
     @TestFactory
@@ -226,7 +196,7 @@ public class BitFieldTest {
                 WeekDay.SATURDAY, WeekDay.SUNDAY));
 
         return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertEquals
-                (element, new BitField<>(WeekDay.SUNDAY).setValue(element).getSet())));
+                (element, new BitField<>(Collections.singleton(WeekDay.SUNDAY)).setValue(element).getSet())));
     }
 
     @TestFactory
@@ -249,7 +219,7 @@ public class BitFieldTest {
                 WeekDay.SATURDAY, WeekDay.SUNDAY));
 
         return list.stream().map(element -> DynamicTest.dynamicTest("days[" + element + "]", () -> assertNotSame
-                (element, new BitField<>(WeekDay.SUNDAY).setValue(element))));
+                (element, new BitField<>(Collections.singleton(WeekDay.SUNDAY)).setValue(element))));
     }
 
     @Test

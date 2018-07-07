@@ -1,12 +1,9 @@
 package io.github.florentclarret.jbitfield;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Represents a immutable bit field of <T> elements. The user is responsible to have a <T> class correctly implemented.
@@ -32,15 +29,10 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
     private final Set<T> set;
 
     /**
-     * Creates a bit field using the given list of values. Duplicated values are used only once and automatically
-     * removed.
+     * Creates a bit field initialized to zero.
      */
-    public BitField(final T... otherElements) {
-        this(new HashSet<T>() {{
-            if (otherElements != null && otherElements.length > 0) {
-                this.addAll(Arrays.stream(otherElements).filter(Objects::nonNull).collect(Collectors.toSet()));
-            }
-        }});
+    public BitField() {
+        this(Collections.emptySet());
     }
 
     /**
@@ -113,17 +105,15 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * @return The newly generated bit field with the extra value.
      * @throws IllegalArgumentException if element is null
      */
-    public BitField<T> addValue(final T element, final T... elements) {
-        if (element == null) {
-            throw new IllegalArgumentException("element can not be null");
+    public BitField<T> addValue(final Set<T> elements) {
+        if (elements == null) {
+            throw new IllegalArgumentException("elements can not be null");
         }
 
         final Set<T> copy = set.isEmpty() ? new HashSet<>() : EnumSet.copyOf(set);
 
-        copy.add(element);
-
-        if (elements != null && elements.length > 1) {
-            copy.addAll(Arrays.stream(elements).filter(Objects::nonNull).collect(Collectors.toSet()));
+        if (!elements.isEmpty()) {
+            copy.addAll(elements);
         }
 
         return new BitField<>(copy);
