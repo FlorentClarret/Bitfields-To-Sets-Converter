@@ -6,12 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents a immutable bit field of <T> elements. The user is responsible to have a <T> class correctly implemented.
- * By correctly implemented, it means that each value of <T> must have a unique position in the bit field. This class
- * aims to ease conversion between EnumSet and bit field for database storage for instance. However, if not needed,
- * never prefer using a bit field over an EnumSet. See Item 36, Effective Java (Third Edition) by Joshua Bloch for
- * further information. Warning : the representation of the bit field is stored in a long primitive type. It means that
- * you can not have more than 64 different values in this implementation
+ * Represents a immutable bit field of <T> elements. This class aims to ease conversion between EnumSet and bit field
+ * for database storage for instance. However, if not needed, never prefer using a bit field over an EnumSet. See Item
+ * 36, Effective Java (Third Edition) by Joshua Bloch for further information. Warning : the representation of the bit
+ * field is stored in a long primitive type. It means that you can not have more than 64 different values in this
+ * implementation
  *
  * @param <T> The enum which represents the value in the bit field.
  * @author Florent Clarret
@@ -29,10 +28,17 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
     private final Set<T> set;
 
     /**
-     * Creates a bit field initialized to zero.
+     * The class represented in the bit field
      */
-    public BitField() {
-        this(Collections.emptySet());
+    private final Class<T> enumClass;
+
+    /**
+     * Creates a bit field initialized to zero for the given class.
+     * @throws IllegalArgumentException if the enumClass is null
+     * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
+     */
+    public BitField(final Class<T> enumClass) {
+        this(enumClass, Collections.emptySet());
     }
 
     /**
@@ -41,15 +47,23 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      *
      * @param set The set containing the element to place in the bit field.
      * @throws IllegalArgumentException if the set is null
+     * @throws IllegalArgumentException if the enumClass is null
+     * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
-    public BitField(final Set<T> set) {
+    public BitField(final Class<T> enumClass, final Set<T> set) {
         if (set == null) {
             throw new IllegalArgumentException("set can not be null");
+        } else if (enumClass == null) {
+            throw new IllegalArgumentException("enumClass can not be null");
+        } else if (!BitFieldHelper.isValidEnum(enumClass)) {
+            throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
+                    "BitFieldElement");
         }
 
         // Not using guava immutable set (instead of unmodifiable set) to avoid relying on external libraries
         this.set = (set.isEmpty()) ? Collections.emptySet() : Collections.unmodifiableSet(EnumSet.copyOf(set));
         this.bitField = this.set.stream().mapToLong(element -> (1 << element.getBitFieldPosition())).sum();
+        this.enumClass = enumClass;
     }
 
     /**
@@ -59,15 +73,21 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * @param bitField  The binary representation of the bit field.
      * @throws IllegalArgumentException if any value in the field are not present in the <T> enum position's or if the
      *                                  enumClass is null.
+     * @throws IllegalArgumentException if the enumClass is null
+     * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass, final long bitField) {
         if (enumClass == null) {
             throw new IllegalArgumentException("enumClass must not be null");
+        } else if (!BitFieldHelper.isValidEnum(enumClass)) {
+            throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
+                    "BitFieldElement");
         }
 
         long localBitField = bitField;
         this.set = EnumSet.noneOf(enumClass);
         this.bitField = localBitField;
+        this.enumClass = enumClass;
 
         if (localBitField != 0) {
             for (final T element : EnumSet.allOf(enumClass)) {
@@ -95,7 +115,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * @throws IllegalArgumentException if the set is null
      */
     public BitField<T> setValue(final Set<T> set) {
-        return new BitField<>(set);
+        return new BitField<>(enumClass, set);
     }
 
     /**
@@ -116,7 +136,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
             copy.addAll(elements);
         }
 
-        return new BitField<>(copy);
+        return new BitField<>(enumClass, copy);
     }
 
     /**
