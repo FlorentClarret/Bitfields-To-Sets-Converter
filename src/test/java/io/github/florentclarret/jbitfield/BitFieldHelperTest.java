@@ -15,17 +15,17 @@ public class BitFieldHelperTest {
     }
 
     @Test
-    public void testIsValid_WithMissingValues() {
+    public void testIsValidWithMissingValues() {
         Assert.assertTrue(BitFieldHelper.isValidEnum(ValidEnum.class));
     }
 
     @Test
-    public void testIsValid_WithDuplicatedValues() {
+    public void testIsValidWithDuplicatedValues() {
         Assert.assertFalse(BitFieldHelper.isValidEnum(DuplicatedEnum.class));
     }
 
     @Test
-    public void testIsValid_WithNegativeValues() {
+    public void testIsValidWithNegativeValues() {
         Assert.assertFalse(BitFieldHelper.isValidEnum(NegativeEnum.class));
     }
 }

@@ -35,12 +35,12 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testDefaultConstructor_WithNullInput() {
+    public void testDefaultConstructorWithNullInput() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>(null));
     }
 
     @Test
-    public void testDefaultConstructor_WithInvalidEnum() {
+    public void testDefaultConstructorWithInvalidEnum() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class));
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class));
     }
@@ -84,7 +84,7 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testConstructorFromSet_WithInvalidEnum() {
+    public void testConstructorFromSetWithInvalidEnum() {
         assertThrows(IllegalArgumentException.class, () -> {
             new BitField<>(NegativeEnum.class, Collections.emptySet());
         });
@@ -121,12 +121,12 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testConstructorFromBitField_WithNullClass() {
+    public void testConstructorFromBitFieldWithNullClass() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>(null, 0));
     }
 
     @Test
-    public void testConstructorFromBitField_WithInvalidEnum() {
+    public void testConstructorFromBitFieldWithInvalidEnum() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class, 0));
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class, 0));
     }
@@ -155,7 +155,7 @@ public class BitFieldTest {
     }
 
     @TestFactory
-    public Stream<DynamicTest> testGetSet_ReturnCopy() {
+    public Stream<DynamicTest> testGetSetReturnCopy() {
         final List<Set<WeekDay>> list = new ArrayList<>();
         list.add(EnumSet.noneOf(WeekDay.class));
         list.add(EnumSet.of(WeekDay.MONDAY));
@@ -190,7 +190,7 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testAddValue_ExistingValue() {
+    public void testAddValueExistingValue() {
         assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
                 .class, Collections.singleton(WeekDay.MONDAY)).add(Collections.singleton(WeekDay.MONDAY)));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
@@ -199,7 +199,7 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testAddValue_ReturnCopy() {
+    public void testAddValueReturnCopy() {
         final BitField<WeekDay> bitField = new BitField<>(WeekDay.class, Collections.singleton(WeekDay.THURSDAY));
 
         Assert.assertNotSame(bitField, bitField.add(Collections.singleton(WeekDay.MONDAY)));
@@ -207,7 +207,7 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testAddValue_WithNullInput() {
+    public void testAddValueWithNullInput() {
         final Set<WeekDay> set = null;
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).add(set));
     }
@@ -236,7 +236,7 @@ public class BitFieldTest {
     }
 
     @TestFactory
-    public Stream<DynamicTest> testSetValue_ReturnCopy() {
+    public Stream<DynamicTest> testSetValueReturnCopy() {
         final List<Set<WeekDay>> list = new ArrayList<>();
         list.add(EnumSet.noneOf(WeekDay.class));
         list.add(EnumSet.of(WeekDay.MONDAY));
@@ -259,7 +259,7 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testSetValue_WithNullInput() {
+    public void testSetValueWithNullInput() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).set(null));
     }
 
