@@ -1,6 +1,7 @@
 *Disclaimer : I wrote this very small "library" for fun. It is not finished nor completely tested.*
 
 [![CircleCI](https://circleci.com/gh/FlorentClarret/JBitField.svg?style=svg)](https://circleci.com/gh/FlorentClarret/JBitField)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5790d541de5043f4880d0c4980cf4a5c)](https://www.codacy.com/app/FlorentClarret/JBitField?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FlorentClarret/JBitField&amp;utm_campaign=Badge_Grade)
 
 # BitField and (Enum)Set conversions
 
