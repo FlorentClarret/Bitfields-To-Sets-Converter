@@ -70,13 +70,9 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testConstructorFromSet_WithNullInput() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new BitField<>(null, null);
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new BitField<>(WeekDay.class, null);
-        });
+    public void testConstructorFromSetWithNullInput() {
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class, null));
         assertThrows(IllegalArgumentException.class, () -> {
             final Class<WeekDay> clazz = null;
             new BitField<>(clazz, Collections.emptySet());
@@ -85,12 +81,8 @@ public class BitFieldTest {
 
     @Test
     public void testConstructorFromSetWithInvalidEnum() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new BitField<>(NegativeEnum.class, Collections.emptySet());
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new BitField<>(DuplicatedEnum.class, Collections.emptySet());
-        });
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class, Collections.emptySet()));
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class, Collections.emptySet()));
     }
 
     @TestFactory
