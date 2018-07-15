@@ -1,5 +1,7 @@
 *Disclaimer : I wrote this very small "library" for fun. It is not finished nor completely tested.*
 
+[![CircleCI](https://circleci.com/gh/FlorentClarret/JBitField.svg?style=svg)](https://circleci.com/gh/FlorentClarret/JBitField)
+
 # BitField and (Enum)Set conversions
 
 ## Purpose
