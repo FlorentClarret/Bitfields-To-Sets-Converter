@@ -4,7 +4,7 @@
 
     <groupId>io.github.florentclarret</groupId>
     <artifactId>jbitfield</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <name>JBitField</name>
     <description>Library to convert bit fields and enum sets</description>
@@ -27,7 +27,7 @@
         <url>https://github.com/FlorentClarret/JBitField</url>
         <connection>scm:git:git://github.com/FlorentClarret/JBitField.git</connection>
         <developerConnection>scm:git:git@github.com:FlorentClarret/JBitField.git</developerConnection>
-      <tag>1.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <developers>
