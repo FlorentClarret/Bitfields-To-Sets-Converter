@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Represents a immutable bit field of <T> elements. This class aims to ease conversion between EnumSet and bit field
+ * Represents a immutable bit field of BitFieldElement enum elements. This class aims to ease conversion between EnumSet and bit field
  * for database storage for instance. However, if not needed, never prefer using a bit field over an EnumSet. See Item
  * 36, Effective Java (Third Edition) by Joshua Bloch for further information. Warning : the representation of the bit
  * field is stored in a long primitive type. It means that you can not have more than 64 different values in this
@@ -34,6 +34,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
 
     /**
      * Creates a bit field initialized to zero for the given class.
+     * @param enumClass The type of the elements stored in the bit field
      * @throws IllegalArgumentException if the enumClass is null
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
@@ -46,6 +47,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * once and automatically removed.
      *
      * @param set The set containing the element to place in the bit field.
+     * @param enumClass The type of the elements stored in the bit field
      * @throws IllegalArgumentException if the set is null
      * @throws IllegalArgumentException if the enumClass is null
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
@@ -71,7 +73,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      *
      * @param enumClass the Class represented in the bit field
      * @param bitField  The binary representation of the bit field.
-     * @throws IllegalArgumentException if any value in the field are not present in the <T> enum position's or if the
+     * @throws IllegalArgumentException if any value in the field are not present in the BitFieldElement enum position's or if the
      *                                  enumClass is null.
      * @throws IllegalArgumentException if the enumClass is null
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
@@ -122,6 +124,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      * Create a new instance of the current bit field with the given extra value. If the element is already in the bit
      * field, nothing will be done. Null values from the elements parameter are ignored.
      *
+     * @param elements The elements to add to the current bit field
      * @return The newly generated bit field with the extra value.
      * @throws IllegalArgumentException if element is null
      */
