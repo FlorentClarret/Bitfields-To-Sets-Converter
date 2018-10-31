@@ -3,6 +3,7 @@ package io.github.florentclarret.jbitfield;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Set;
  * @param <T> The enum which represents the value in the bit field.
  * @author Florent Clarret
  */
-public final class BitField<T extends Enum<T> & BitFieldElement> {
+public final class BitField<T extends Enum<T> & BitFieldElement> implements Iterable<T> {
 
     /**
      * Binary representation of the bit field.
@@ -178,6 +179,11 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
      */
     public Set<T> getSet() {
         return set;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return this.set.iterator();
     }
 
     @Override

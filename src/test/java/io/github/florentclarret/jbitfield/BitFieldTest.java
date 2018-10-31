@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -279,6 +280,33 @@ public class BitFieldTest {
     @Test
     public void testSetValueWithNullInput() {
         assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).set(null));
+    }
+
+    @TestFactory
+    public Stream<DynamicTest> testIterator() {
+        final Map<Set<WeekDay>, BitField<WeekDay>> map = new HashMap<>();
+        map.put(EnumSet.noneOf(WeekDay.class), new BitField<>(WeekDay.class, EnumSet.noneOf(WeekDay.class)));
+        map.put(EnumSet.of(WeekDay.MONDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.MONDAY)));
+        map.put(EnumSet.of(WeekDay.TUESDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.TUESDAY)));
+        map.put(EnumSet.of(WeekDay.WEDNESDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.WEDNESDAY)));
+        map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY)));
+        map.put(EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.SUNDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY)));
+        map.put(EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.TUESDAY, WeekDay.SATURDAY, WeekDay.THURSDAY)));
+        map.put(EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY), new BitField<>(WeekDay.class, EnumSet.of(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY, WeekDay.FRIDAY,
+                WeekDay.SATURDAY, WeekDay.SUNDAY)));
+
+        return map.entrySet().stream().map(element -> DynamicTest.dynamicTest("set[" + element.getKey() +
+                "]", () -> assertTrue(this.isSameIterator(element.getKey().iterator(), element.getValue().iterator()))));
+    }
+
+    private <T> boolean isSameIterator(final Iterator<T> iterator1, final Iterator<T> iterator2) {
+        while(iterator1.hasNext()){
+            if(!iterator2.hasNext() || !iterator1.next().equals(iterator2.next())){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
