@@ -121,16 +121,20 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
     }
 
     /**
-     * Create a new instance of the current bit field with the given extra value. If the element is already in the bit
+     * Create a new instance of the current bit field with the given extra values. If the element is already in the bit
      * field, nothing will be done. Null values from the elements parameter are ignored.
      *
      * @param elements The elements to add to the current bit field
-     * @return The newly generated bit field with the extra value.
-     * @throws IllegalArgumentException if element is null
+     * @return The newly generated bit field with the extra values.
+     * @throws IllegalArgumentException if elements is null
      */
-    public BitField<T> add(final Set<T> elements) {
+    public BitField<T> addAll(final Set<T> elements) {
         if (elements == null) {
             throw new IllegalArgumentException("elements can not be null");
+        }
+
+        if(elements.isEmpty()) {
+            return this;
         }
 
         final Set<T> copy = set.isEmpty() ? new HashSet<>() : EnumSet.copyOf(set);
@@ -140,6 +144,22 @@ public final class BitField<T extends Enum<T> & BitFieldElement> {
         }
 
         return new BitField<>(enumClass, copy);
+    }
+
+    /**
+     * Create a new instance of the current bit field with the given extra value. If the element is already in the bit
+     * field, nothing will be done.
+     *
+     * @param element The element to add to the current bit field
+     * @return The newly generated bit field with the extra value.
+     * @throws IllegalArgumentException if element is null
+     */
+    public BitField<T> add(final T element) {
+        if (element == null) {
+            throw new IllegalArgumentException("element can not be null");
+        }
+
+        return this.set.contains(element) ? this : this.addAll(EnumSet.of(element));
     }
 
     /**

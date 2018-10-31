@@ -170,38 +170,64 @@ public class BitFieldTest {
     }
 
     @Test
-    public void testAddValue() {
+    public void testAddAllValue() {
         assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
-                .class).add(Collections.singleton(WeekDay.MONDAY)));
+                .class).addAll(Collections.singleton(WeekDay.MONDAY)));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
-                BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)).add(Collections.singleton
+                BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)).addAll(Collections.singleton
                 (WeekDay.TUESDAY)));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay
                 .FRIDAY))), new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))
-        ).add(Collections.singleton(WeekDay.FRIDAY)));
+        ).addAll(Collections.singleton(WeekDay.FRIDAY)));
+    }
+
+    @Test
+    public void testAddAllValueExistingValue() {
+        assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
+                .class, Collections.singleton(WeekDay.MONDAY)).addAll(Collections.singleton(WeekDay.MONDAY)));
+        assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
+                BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).addAll
+                (Collections.singleton(WeekDay.TUESDAY)));
+    }
+
+    @Test
+    public void testAddAllValueReturnCopy() {
+        final BitField<WeekDay> bitField = new BitField<>(WeekDay.class, Collections.singleton(WeekDay.THURSDAY));
+
+        Assert.assertNotSame(bitField, bitField.addAll(Collections.singleton(WeekDay.MONDAY)));
+        Assert.assertNotSame(bitField, bitField.addAll(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.THURSDAY))));
+    }
+
+    @Test
+    public void testAddValue() {
+        assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
+                .class).add(WeekDay.MONDAY));
+        assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
+                BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)).add(WeekDay.TUESDAY));
+        assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY, WeekDay
+                .FRIDAY))), new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))
+        ).add(WeekDay.FRIDAY));
     }
 
     @Test
     public void testAddValueExistingValue() {
         assertEquals(new BitField<>(WeekDay.class, Collections.singleton(WeekDay.MONDAY)), new BitField<>(WeekDay
-                .class, Collections.singleton(WeekDay.MONDAY)).add(Collections.singleton(WeekDay.MONDAY)));
+                .class, Collections.singleton(WeekDay.MONDAY)).add(WeekDay.MONDAY));
         assertEquals(new BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))), new
-                BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).add
-                (Collections.singleton(WeekDay.TUESDAY)));
+                BitField<>(WeekDay.class, new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.TUESDAY))).add(WeekDay.TUESDAY));
     }
 
     @Test
     public void testAddValueReturnCopy() {
         final BitField<WeekDay> bitField = new BitField<>(WeekDay.class, Collections.singleton(WeekDay.THURSDAY));
 
-        Assert.assertNotSame(bitField, bitField.add(Collections.singleton(WeekDay.MONDAY)));
-        Assert.assertNotSame(bitField, bitField.add(new HashSet(Arrays.asList(WeekDay.MONDAY, WeekDay.THURSDAY))));
+        Assert.assertNotSame(bitField, bitField.add(WeekDay.MONDAY));
     }
 
     @Test
     public void testAddValueWithNullInput() {
         final Set<WeekDay> set = null;
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).add(set));
+        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).addAll(set));
     }
 
     @TestFactory
