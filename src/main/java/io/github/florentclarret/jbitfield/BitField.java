@@ -34,6 +34,11 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
     private final Class<T> enumClass;
 
     /**
+     * The cached hash code
+     */
+    private int hashCode;
+
+    /**
      * Creates a bit field initialized to zero for the given class.
      * @param enumClass The type of the elements stored in the bit field
      * @throws IllegalArgumentException if the enumClass is null
@@ -202,7 +207,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
 
     @Override
     public int hashCode() {
-        return (int) (bitField ^ (bitField >>> 32));
+        return (hashCode == 0) ? hashCode = ((int) (bitField ^ (bitField >>> 32))) : hashCode;
     }
 
     @Override
