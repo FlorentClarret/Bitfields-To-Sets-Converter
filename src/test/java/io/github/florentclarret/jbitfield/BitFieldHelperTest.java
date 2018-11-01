@@ -7,6 +7,8 @@ import io.github.florentclarret.jbitfield.enums.WeekDay;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class BitFieldHelperTest {
 
     @Test
@@ -27,5 +29,10 @@ public class BitFieldHelperTest {
     @Test
     public void testIsValidWithNegativeValues() {
         Assert.assertFalse(BitFieldHelper.isValidEnum(NegativeEnum.class));
+    }
+
+    @Test
+    public void testIsValidWithNullInput() {
+        assertThrows(NullPointerException.class, () -> BitFieldHelper.isValidEnum(null), "enumClass must not be null");
     }
 }

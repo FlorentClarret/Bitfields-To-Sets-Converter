@@ -2,6 +2,7 @@ package io.github.florentclarret.jbitfield;
 
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -20,9 +21,10 @@ public final class BitFieldHelper {
      * @param enumClass The enumClass which extends BitFieldElement to check.
      * @param <T> The BitFieldElement class.
      * @return true if the enum is valid from the BitFieldp oint of view, false otherwise.
+     * @throws NullPointerException if the enumClass is null
      */
     public static <T extends Enum<T> & BitFieldElement> boolean isValidEnum(final Class<T> enumClass) {
-        final Set<T> enumSet = EnumSet.allOf(enumClass);
+        final Set<T> enumSet = EnumSet.allOf(Objects.requireNonNull(enumClass, "enumClass must not be null)"));
         final Set<Integer> set = new HashSet<>(enumSet.size());
 
         for(final T element : enumSet) {
