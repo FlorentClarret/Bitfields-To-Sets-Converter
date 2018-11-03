@@ -1,6 +1,11 @@
 package io.github.florentclarret.jbitfield;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents a immutable bit field of BitFieldElement enum elements. This class aims to ease conversion between EnumSet and bit field
@@ -59,8 +64,8 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
         Objects.requireNonNull(enumClass, "enumClass can not be null");
 
         if (!BitFieldHelper.isValidEnum(enumClass)) {
-            throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
-                    "BitFieldElement");
+            throw new IllegalArgumentException(String.format("the class [%s] is not a valid " +
+                    "BitFieldElement", enumClass.getName()));
         }
 
         // Not using guava immutable set (instead of unmodifiable set) to avoid relying on external libraries
@@ -83,8 +88,8 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
         Objects.requireNonNull(enumClass, "enumClass can not be null");
 
         if (!BitFieldHelper.isValidEnum(enumClass)) {
-            throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
-                    "BitFieldElement");
+            throw new IllegalArgumentException(String.format("the class [%s] is not a valid " +
+                    "BitFieldElement", enumClass.getName()));
         }
 
         long localBitField = bitField;
@@ -103,8 +108,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
 
             // If the local bit field is not 0, it means that we have missing position values in the <T> enum
             if (localBitField != 0) {
-                throw new IllegalArgumentException("Invalid value found in bit field [" + bitField + "] for enum [" +
-                        enumClass.getName());
+                throw new IllegalArgumentException(String.format("Invalid value found in bit field [%s] for enum [%s]", bitField, enumClass.getName()));
             }
         }
     }
