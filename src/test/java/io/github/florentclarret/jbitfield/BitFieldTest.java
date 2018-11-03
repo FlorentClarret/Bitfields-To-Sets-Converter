@@ -37,7 +37,7 @@ public class BitFieldTest {
 
     @Test
     public void testDefaultConstructorWithNullInput() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>(null));
+        assertThrows(NullPointerException.class, () -> new BitField<WeekDay>(null));
     }
 
     @Test
@@ -72,9 +72,9 @@ public class BitFieldTest {
 
     @Test
     public void testConstructorFromSetWithNullInput() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class, null));
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(NullPointerException.class, () -> new BitField<>(null, null));
+        assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class, null));
+        assertThrows(NullPointerException.class, () -> {
             final Class<WeekDay> clazz = null;
             new BitField<>(clazz, Collections.emptySet());
         });
@@ -115,7 +115,7 @@ public class BitFieldTest {
 
     @Test
     public void testConstructorFromBitFieldWithNullClass() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<WeekDay>(null, 0));
+        assertThrows(NullPointerException.class, () -> new BitField<WeekDay>(null, 0));
     }
 
     @Test
@@ -228,7 +228,7 @@ public class BitFieldTest {
     @Test
     public void testAddValueWithNullInput() {
         final Set<WeekDay> set = null;
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).addAll(set));
+        assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class).addAll(set));
     }
 
     @TestFactory
@@ -279,7 +279,7 @@ public class BitFieldTest {
 
     @Test
     public void testSetValueWithNullInput() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(WeekDay.class).set(null));
+        assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class).set(null));
     }
 
     @TestFactory

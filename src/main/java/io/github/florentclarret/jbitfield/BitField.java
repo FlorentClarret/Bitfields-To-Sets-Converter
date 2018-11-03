@@ -41,7 +41,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
     /**
      * Creates a bit field initialized to zero for the given class.
      * @param enumClass The type of the elements stored in the bit field
-     * @throws IllegalArgumentException if the enumClass is null
+     * @throws NullPointerException if the enumClass is null
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass) {
@@ -54,15 +54,15 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      *
      * @param set The set containing the element to place in the bit field.
      * @param enumClass The type of the elements stored in the bit field
-     * @throws IllegalArgumentException if the set is null
-     * @throws IllegalArgumentException if the enumClass is null
+     * @throws NullPointerException if the set is null
+     * @throws NullPointerException if the enumClass is null
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass, final Set<T> set) {
         if (set == null) {
-            throw new IllegalArgumentException("set can not be null");
+            throw new NullPointerException("set can not be null");
         } else if (enumClass == null) {
-            throw new IllegalArgumentException("enumClass can not be null");
+            throw new NullPointerException("enumClass can not be null");
         } else if (!BitFieldHelper.isValidEnum(enumClass)) {
             throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
                     "BitFieldElement");
@@ -81,12 +81,12 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      * @param bitField  The binary representation of the bit field.
      * @throws IllegalArgumentException if any value in the field are not present in the BitFieldElement enum position's or if the
      *                                  enumClass is null.
-     * @throws IllegalArgumentException if the enumClass is null
+     * @throws NullPointerException if the enumClass is null
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass, final long bitField) {
         if (enumClass == null) {
-            throw new IllegalArgumentException("enumClass must not be null");
+            throw new NullPointerException("enumClass must not be null");
         } else if (!BitFieldHelper.isValidEnum(enumClass)) {
             throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
                     "BitFieldElement");
@@ -120,7 +120,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      *
      * @param set The set to define in the bit field.
      * @return The newly generated bit field.
-     * @throws IllegalArgumentException if the set is null
+     * @throws NullPointerException if the set is null
      */
     public BitField<T> set(final Set<T> set) {
         return new BitField<>(enumClass, set);
@@ -132,11 +132,11 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      *
      * @param elements The elements to add to the current bit field
      * @return The newly generated bit field with the extra values.
-     * @throws IllegalArgumentException if elements is null
+     * @throws NullPointerException if elements is null
      */
     public BitField<T> addAll(final Set<T> elements) {
         if (elements == null) {
-            throw new IllegalArgumentException("elements can not be null");
+            throw new NullPointerException("elements can not be null");
         }
 
         if(elements.isEmpty()) {
@@ -158,11 +158,11 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      *
      * @param element The element to add to the current bit field
      * @return The newly generated bit field with the extra value.
-     * @throws IllegalArgumentException if element is null
+     * @throws NullPointerException if element is null
      */
     public BitField<T> add(final T element) {
         if (element == null) {
-            throw new IllegalArgumentException("element can not be null");
+            throw new NullPointerException("element can not be null");
         }
 
         return this.set.contains(element) ? this : this.addAll(EnumSet.of(element));
