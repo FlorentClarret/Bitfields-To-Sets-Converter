@@ -1,10 +1,6 @@
 package io.github.florentclarret.jbitfield;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a immutable bit field of BitFieldElement enum elements. This class aims to ease conversion between EnumSet and bit field
@@ -59,11 +55,10 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass, final Set<T> set) {
-        if (set == null) {
-            throw new NullPointerException("set can not be null");
-        } else if (enumClass == null) {
-            throw new NullPointerException("enumClass can not be null");
-        } else if (!BitFieldHelper.isValidEnum(enumClass)) {
+        Objects.requireNonNull(set, "set can not be null");
+        Objects.requireNonNull(enumClass, "enumClass can not be null");
+
+        if (!BitFieldHelper.isValidEnum(enumClass)) {
             throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
                     "BitFieldElement");
         }
@@ -85,9 +80,9 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass, final long bitField) {
-        if (enumClass == null) {
-            throw new NullPointerException("enumClass must not be null");
-        } else if (!BitFieldHelper.isValidEnum(enumClass)) {
+        Objects.requireNonNull(enumClass, "enumClass can not be null");
+
+        if (!BitFieldHelper.isValidEnum(enumClass)) {
             throw new IllegalArgumentException("the class [" + enumClass.getName() + "] is not a valid " +
                     "BitFieldElement");
         }
@@ -135,9 +130,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      * @throws NullPointerException if elements is null
      */
     public BitField<T> addAll(final Set<T> elements) {
-        if (elements == null) {
-            throw new NullPointerException("elements can not be null");
-        }
+        Objects.requireNonNull(elements, "elements can not be null");
 
         if(elements.isEmpty()) {
             return this;
@@ -161,11 +154,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      * @throws NullPointerException if element is null
      */
     public BitField<T> add(final T element) {
-        if (element == null) {
-            throw new NullPointerException("element can not be null");
-        }
-
-        return this.set.contains(element) ? this : this.addAll(EnumSet.of(element));
+        return this.set.contains(Objects.requireNonNull(element, "element can not be null")) ? this : this.addAll(EnumSet.of(element));
     }
 
     /**

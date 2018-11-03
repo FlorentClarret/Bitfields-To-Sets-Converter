@@ -37,13 +37,13 @@ public class BitFieldTest {
 
     @Test
     public void testDefaultConstructorWithNullInput() {
-        assertThrows(NullPointerException.class, () -> new BitField<WeekDay>(null));
+        Assert.assertEquals("enumClass can not be null", assertThrows(NullPointerException.class, () -> new BitField<WeekDay>(null)).getMessage());
     }
 
     @Test
     public void testDefaultConstructorWithInvalidEnum() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class));
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class));
+        assertEquals("the class [io.github.florentclarret.jbitfield.enums.NegativeEnum] is not a valid BitFieldElement", assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class)).getMessage());
+        assertEquals("the class [io.github.florentclarret.jbitfield.enums.DuplicatedEnum] is not a valid BitFieldElement", assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class)).getMessage());
     }
 
     @TestFactory
@@ -72,18 +72,18 @@ public class BitFieldTest {
 
     @Test
     public void testConstructorFromSetWithNullInput() {
-        assertThrows(NullPointerException.class, () -> new BitField<>(null, null));
-        assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class, null));
-        assertThrows(NullPointerException.class, () -> {
+        Assert.assertEquals("set can not be null", assertThrows(NullPointerException.class, () -> new BitField<>(null, null)).getMessage());
+        Assert.assertEquals("set can not be null",assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class, null)).getMessage());
+        Assert.assertEquals("enumClass can not be null", assertThrows(NullPointerException.class, () -> {
             final Class<WeekDay> clazz = null;
             new BitField<>(clazz, Collections.emptySet());
-        });
+        }).getMessage());
     }
 
     @Test
     public void testConstructorFromSetWithInvalidEnum() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class, Collections.emptySet()));
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class, Collections.emptySet()));
+        assertEquals("the class [io.github.florentclarret.jbitfield.enums.NegativeEnum] is not a valid BitFieldElement", assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class, Collections.emptySet())).getMessage());
+        assertEquals("the class [io.github.florentclarret.jbitfield.enums.DuplicatedEnum] is not a valid BitFieldElement", assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class, Collections.emptySet())).getMessage());
     }
 
     @TestFactory
@@ -115,13 +115,13 @@ public class BitFieldTest {
 
     @Test
     public void testConstructorFromBitFieldWithNullClass() {
-        assertThrows(NullPointerException.class, () -> new BitField<WeekDay>(null, 0));
+        assertEquals("enumClass can not be null", assertThrows(NullPointerException.class, () -> new BitField<WeekDay>(null, 0)).getMessage());
     }
 
     @Test
     public void testConstructorFromBitFieldWithInvalidEnum() {
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class, 0));
-        assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class, 0));
+        assertEquals("the class [io.github.florentclarret.jbitfield.enums.DuplicatedEnum] is not a valid BitFieldElement", assertThrows(IllegalArgumentException.class, () -> new BitField<>(DuplicatedEnum.class, 0)).getMessage());
+        assertEquals("the class [io.github.florentclarret.jbitfield.enums.NegativeEnum] is not a valid BitFieldElement", assertThrows(IllegalArgumentException.class, () -> new BitField<>(NegativeEnum.class, 0)).getMessage());
     }
 
     @TestFactory
@@ -228,7 +228,7 @@ public class BitFieldTest {
     @Test
     public void testAddValueWithNullInput() {
         final Set<WeekDay> set = null;
-        assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class).addAll(set));
+        assertEquals("elements can not be null", assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class).addAll(set)).getMessage());
     }
 
     @TestFactory
@@ -279,7 +279,7 @@ public class BitFieldTest {
 
     @Test
     public void testSetValueWithNullInput() {
-        assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class).set(null));
+        assertEquals("set can not be null", assertThrows(NullPointerException.class, () -> new BitField<>(WeekDay.class).set(null)).getMessage());
     }
 
     @TestFactory
