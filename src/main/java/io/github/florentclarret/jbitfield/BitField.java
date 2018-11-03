@@ -2,7 +2,6 @@ package io.github.florentclarret.jbitfield;
 
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
@@ -46,7 +45,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
      * @throws IllegalArgumentException if the enumClass is not a valid BtFieldElement
      */
     public BitField(final Class<T> enumClass) {
-        this(enumClass, Collections.emptySet());
+        this(enumClass, EnumSet.noneOf(Objects.requireNonNull(enumClass, "enumClass can not be null")));
     }
 
     /**
@@ -69,7 +68,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
         }
 
         // Not using guava immutable set (instead of unmodifiable set) to avoid relying on external libraries
-        this.set = (set.isEmpty()) ? Collections.emptySet() : Collections.unmodifiableSet(EnumSet.copyOf(set));
+        this.set = (set.isEmpty()) ? Collections.unmodifiableSet(EnumSet.noneOf(enumClass)) : Collections.unmodifiableSet(EnumSet.copyOf(set));
         this.bitField = this.set.stream().mapToLong(element -> (1 << element.getBitFieldPosition())).sum();
         this.enumClass = enumClass;
     }
@@ -140,7 +139,7 @@ public final class BitField<T extends Enum<T> & BitFieldElement> implements Iter
             return this;
         }
 
-        final Set<T> copy = set.isEmpty() ? new HashSet<>() : EnumSet.copyOf(set);
+        final Set<T> copy = set.isEmpty() ? EnumSet.noneOf(enumClass) : EnumSet.copyOf(set);
 
         if (!elements.isEmpty()) {
             copy.addAll(elements);
