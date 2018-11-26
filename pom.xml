@@ -56,7 +56,7 @@
 
         <!-- Dependencies -->
         <junit.version>5.3.1</junit.version>
-        <junit-platform-launcher.version>1.3.1</junit-platform-launcher.version>
+        <junit-platform-launcher.version>1.3.2</junit-platform-launcher.version>
 
         <!-- Plugins -->
         <jacoco-plugin.version>0.8.2</jacoco-plugin.version>
